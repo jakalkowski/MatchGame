@@ -29,7 +29,7 @@ MatchGame.generateCardValues = function () {
   Create a sequentially-ordered — in ascending order — array with two copies
   of every number from 1 through 8
   */
-  var pairs = 8
+  var pairs = 8;
   var orderedArray = [];
   for (var i = 1; i <= pairs ; i++){
     orderedArray.push(i, i);
@@ -150,9 +150,11 @@ MatchGame.flipCard = function($card, $game) {
 
     } else {
 
-        $(".card").off("click")
-
+      /* No match found. Deactivate click events. */
+        $(".card").off("click");
+        /* Start timer for 350ms. */
         setTimeout(function(){
+          /* After timer expired, flip cards back and enable click events again. */
           var resetCss = {
             backgroundColor: "rgb(32,64,86)",
             color: "rgb(255,255,255)"
@@ -166,11 +168,8 @@ MatchGame.flipCard = function($card, $game) {
             MatchGame.flipCard($(this), $game);
           });
 
-
         }, 350);
-
     }
-    
    }
 
 };
