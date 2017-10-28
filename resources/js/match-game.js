@@ -4,15 +4,7 @@ var MatchGame = {};
   Sets up a new game after HTML document has loaded.
   Renders a 4x4 board of cards.
 */
-/*
-$(document).ready(function() {
-  var $game = $("#game");
-  var randomCards = MatchGame.generateCardValues();
-  console.log(randomCards);
-  var $button = $(".btn");
-  $(document).on("click", "$button", function(){MatchGame.renderCards(randomCards, $game);};);
-});
-*/
+
 /*
 $(document).ready(function() {
   var $game = $("#game");
@@ -23,13 +15,10 @@ $(document).ready(function() {
 */
 
 $(document).on("click", ".btn", function(){
-  //alert ('button clicked');
-  $(document).ready(function() {
     var $game = $("#game");
     var randomCards = MatchGame.generateCardValues();
     console.log(randomCards);
     MatchGame.renderCards(randomCards, $game);
-  });
 });
 
 /*
