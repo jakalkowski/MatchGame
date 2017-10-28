@@ -13,6 +13,13 @@ $(document).ready(function() {
 });
 
 /*
+$(document).ready(function() {
+  console.log(MatchGame.generateCardValues());
+  MatchGame.renderCards(MatchGame.generateCardValues(), $("#game"));
+});
+*/
+
+/*
   Generates and returns an array of matching card values.
  */
 
@@ -22,8 +29,9 @@ MatchGame.generateCardValues = function () {
   Create a sequentially-ordered — in ascending order — array with two copies
   of every number from 1 through 8
   */
+  var pairs = 8
   var orderedArray = [];
-  for (var i = 1; i <= 8 ; i++){
+  for (var i = 1; i <= pairs ; i++){
     orderedArray.push(i, i);
   };
 
@@ -32,8 +40,8 @@ MatchGame.generateCardValues = function () {
   */
   var randomArray = [];
   var x = 0;
-  var y = 16;
-  while (x < 16){
+  var y = (pairs * 2);
+  while (x < (pairs * 2)){
     var index = Math.floor(Math.random() * y);
     randomArray.push(orderedArray.splice(index,1)[0]);
     y--;
@@ -80,6 +88,11 @@ MatchGame.renderCards = function(cardValues, $game) {
 
     var $card = $("<div class='col-xs-3 card'></div>")
     $card.data(data);
+
+    /* var $card = $("<div class='col-xs-3 card'></div>").data("value", {
+      value: cardValues[i], color: colorArray[cardValues[i] - 1], flipStatus: "false"
+    })*/
+
     /*
     Add the card objects to the $game object.
     */
@@ -113,48 +126,42 @@ MatchGame.renderCards = function(cardValues, $game) {
        flip back over, clear game array of flipped cards.
  If card flipped already:
    Exit function.
+ Add a delay to the flip.
  */
 
 MatchGame.flipCard = function($card, $game) {
-
- console.log("beginning of function: " + $game.data("flippedCards").length)
 
  if ($card.data("flipStatus")){
    return;
  }
 
  $card.css("background-color", $card.data("color")).text($card.data("value")).data("flipStatus", true);
-
  $game.data("flippedCards").push($card);
 
- console.log("after pushing: " + $game.data("flippedCards").length)
-
- //console.log("game, flippedCards array has: " + $game.data("flippedCards")[0].data("value"))
-
  if ($game.data("flippedCards").length == 2) {
-
    if ($game.data("flippedCards")[0].data("value") === $game.data("flippedCards")[1].data("value")) {
      var matching = {
        backgroundColor: "rgb(153,153,153)",
        color: "rgb(204,204,204)"
        };
-
        $game.data("flippedCards")[0].css(matching);
        $game.data("flippedCards")[1].css(matching);
 
-     } else {
-       var resetCss = {
-         backgroundColor: "rgb(32,64,86)",
-         color: "rgb(255,255,255)"
-       };
+    } else {
 
+        setTimeout(function(){
+          var resetCss = {
+            backgroundColor: "rgb(32,64,86)",
+            color: "rgb(255,255,255)"
+          };
 
-       $game.data("flippedCards")[0].css(resetCss).text("").data("flipStatus", false);
-       $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
-     }
-   /* Add a delay to the flip. */
+          $game.data("flippedCards")[0].css(resetCss).text("").data("flipStatus", false);
+          $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
 
-   $game.data("flippedCards", []);
+        }, 350);
+
+    }
+    $game.data("flippedCards", []);
    }
 
 };
