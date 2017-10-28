@@ -150,6 +150,8 @@ MatchGame.flipCard = function($card, $game) {
 
     } else {
 
+        $(".card").off("click")
+
         setTimeout(function(){
           var resetCss = {
             backgroundColor: "rgb(32,64,86)",
@@ -160,7 +162,12 @@ MatchGame.flipCard = function($card, $game) {
           $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
           $game.data("flippedCards", []);
 
-        }, 350);
+          $(".card").click(function(){
+            MatchGame.flipCard($(this), $game);
+          });
+
+
+        }, 1000);
 
     }
     
