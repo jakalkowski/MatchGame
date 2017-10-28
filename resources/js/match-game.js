@@ -117,28 +117,30 @@ MatchGame.renderCards = function(cardValues, $game) {
 
 MatchGame.flipCard = function($card, $game) {
 
+ console.log("beginning of function: " + $game.data("flippedCards").length)
+
  if ($card.data("flipStatus")){
    return;
  }
 
  $card.css("background-color", $card.data("color")).text($card.data("value")).data("flipStatus", true);
 
- var number = $card.data("value");
- var flippedCards = $game.data("flippedCards");
+ $game.data("flippedCards").push($card);
 
- flippedCards.push(number);
- console.log("flipped cards: " + flippedCards);
+ console.log("after pushing: " + $game.data("flippedCards").length)
 
- if (flippedCards.length == 2) {
+ //console.log("game, flippedCards array has: " + $game.data("flippedCards")[0].data("value"))
 
-   if (flippedCards[0].data("value") === flippedCards[1].data("value")) {
+ if ($game.data("flippedCards").length == 2) {
+
+   if ($game.data("flippedCards")[0].data("value") === $game.data("flippedCards")[1].data("value")) {
      var matching = {
        backgroundColor: "rgb(153,153,153)",
        color: "rgb(204,204,204)"
        };
 
-       flippedCards[0].css(matching);
-       flippedCards[1].css(matching);
+       $game.data("flippedCards")[0].css(matching);
+       $game.data("flippedCards")[1].css(matching);
 
      } else {
        var resetCss = {
@@ -146,13 +148,13 @@ MatchGame.flipCard = function($card, $game) {
          color: "rgb(255,255,255)"
        };
 
-       flippedCards[0].css(resetCss).text("").data("flipStatus", false);
-       flippedCards[1].css(resetCss).text("").data("flipStatus", false);
-       flippedCards = [];
-     }
 
+       $game.data("flippedCards")[0].css(resetCss).text("").data("flipStatus", false);
+       $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
+     }
+   /* Add a delay to the flip. */
+
+   $game.data("flippedCards", []);
    }
-  /* Add a delay to the flip.
-  setTimeout(function(){MatchGame.flipCard($card, $game);}, 350);*/
 
 };
