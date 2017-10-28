@@ -160,7 +160,7 @@ MatchGame.flipCard = function($card, $game) {
           $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
           $game.data("flippedCards", []);
 
-        }, 1000);
+        }, 350);
 
     }
     
