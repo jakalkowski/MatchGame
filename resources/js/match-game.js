@@ -167,7 +167,7 @@ MatchGame.flipCard = function($card, $game) {
           });
 
 
-        }, 1000);
+        }, 350);
 
     }
     
