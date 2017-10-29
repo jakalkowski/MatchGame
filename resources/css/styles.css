@@ -165,3 +165,7 @@ a {
 .confetti17, .confetti21 {
   animation-delay:.5s;
 }
+
+.grey {
+  background-color: rgb(153,153,153);
+}
