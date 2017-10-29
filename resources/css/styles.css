@@ -45,6 +45,10 @@ a {
   text-decoration: none;
 }
 
+.button {
+  padding-left: 0;
+}
+
 .card {
   display: flex;
   justify-content: center;

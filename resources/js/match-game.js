@@ -1,3 +1,6 @@
+var $confetti = $(".indicate-win-animation");
+$confetti.hide();
+
 var MatchGame = {};
 
 /*
@@ -20,11 +23,12 @@ $(document).on("click", ".btn", function(){
     var randomCards = MatchGame.generateCardValues();
     console.log(randomCards);
     MatchGame.renderCards(randomCards, $game);
+    $confetti.hide();
 });
 
 /*
   Generates and returns an array of matching card values.
- */
+*/
 
 MatchGame.generateCardValues = function () {
 
@@ -100,6 +104,9 @@ MatchGame.renderCards = function(cardValues, $game) {
     Add the card objects to the $game object.
     */
     $game.append($card);
+
+    /* Initialize card counter. */
+    $game.data("cardsRemaining", cardValues.length);
   };
 
   /*
@@ -151,6 +158,16 @@ MatchGame.flipCard = function($card, $game) {
        $game.data("flippedCards")[1].css(matching);
        $game.data("flippedCards", []);
 
+       /* If match found update card counter. */
+       var newRemaining = $game.data("cardsRemaining") - 2;
+       $game.data("cardsRemaining", newRemaining);
+       //console.log("after substract: " + $game.data("cardsRemaining"))
+
+       /* Check win condition. */
+       if ($game.data("cardsRemaining") == 0) {
+         $confetti.show();
+       };
+
     } else {
 
       /* No match found. Deactivate click events. */
@@ -172,7 +189,7 @@ MatchGame.flipCard = function($card, $game) {
           });
 
         }, 350);
+
     }
    }
-
 };
