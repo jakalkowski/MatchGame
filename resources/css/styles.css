@@ -58,4 +58,106 @@ a {
   font-weight: 900;
   color: rgb(255, 255, 255);
   cursor: pointer;
+  z-index: 5;
+}
+
+/* Indicate-win-animation */
+.confetti {
+  width: 15px;
+  height: 15px;
+  margin-top: -100px;
+  border-radius: 30px;
+  position: relative;
+  z-index: 10;
+  animation: confetti 5s;
+  animation-iteration-count: 3;
+}
+
+@keyframes confetti {
+  0% {top: 0px;}
+  100% {top: 1500px;}
+}
+
+.confetti1, .confetti2, .confetti3, .confetti4, .confetti8, .confetti9, .confetti10, .confetti11, .confetti15, .confetti16, .confetti17, .confetti18 {
+  background-color: rgb(128,128,128);
+}
+
+.confetti5, .confetti6, .confetti7, .confetti12, .confetti13, .confetti14, .confetti19, .confetti20, .confetti21 {
+  background-color: rgb(255, 255, 255);
+}
+
+
+.confetti1 {
+  margin-left: 50px;
+}
+.confetti7, .confetti16 {
+  margin-left: 100px;
+}
+.confetti6, .confetti8, .confetti21 {
+  margin-left: 200px;
+}
+.confetti17 {
+  margin-left: 250px;
+}
+.confetti2 {
+  margin-left: 300px;
+}
+.confetti12, .confetti11 {
+  margin-left: 350px;
+}
+.confetti18, .confetti19 {
+  margin-left: 450px;
+}
+.confetti10 {
+  margin-left: 550px;
+}
+.confetti14 {
+  margin-left: 570px;
+}
+.confetti4 {
+  margin-left: 600px;
+}
+.confetti3 {
+  margin-left: 620px;
+}
+.confetti15 {
+  margin-left: 650px;
+}
+.confetti5 {
+  margin-left: 700px;
+}
+.confetti3 {
+  margin-left: 800px;
+}
+.confetti20 {
+  margin-left: 850px;
+}
+.confetti9 {
+  margin-left: 900px;
+}
+
+
+.confetti1, .confetti12, .confetti2 {
+  animation-delay:1s;
+}
+.confetti3, .confetti6, .confetti20 {
+  animation-delay:1.5s;
+}
+.confetti11, .confetti5, .confetti15 {
+  animation-delay:2s;
+}
+.confetti10, .confetti14, .confetti18 {
+  animation-delay:2.5s;
+}
+.confetti4, .confetti9, .confetti19 {
+  animation-delay:3s;
+}
+.confetti13, .confetti16, .confetti20 {
+  animation-delay:4s;
+}
+.confetti7, .confetti8 {
+  animation-delay:4.5s;
+}
+.confetti17, .confetti21 {
+  animation-delay:.5s;
 }
