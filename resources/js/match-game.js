@@ -18,7 +18,7 @@ $(document).ready(function() {
 */
 
 /* On click of "Start Game" button, sets up a new game. */
-$(document).on("click", ".btn", function(){
+$(document).on("click", ".btn-start", function(){
     var $game = $("#game");
     var randomCards = MatchGame.generateCardValues();
     console.log(randomCards);
