@@ -6,12 +6,25 @@ var MatchGame = {};
 var $confetti = $(".indicate-win-animation");
 $confetti.hide();
 
-/* Add functionality for buttons to choose difficulty level. */
-var pairs = $("#difficulty > .active").attr("pairs")
+/* Add functionality for buttons to choose difficulty level using numbers on cards. */
+var pairs = $("#difficulty > .active").attr("pairs");
 
 $("#difficulty").on("click", ".btn", function(){
   pairs = $(this).attr("pairs");
   $("#difficulty > .btn").removeClass("active");
+  $(this).addClass("active");
+  $("#game").empty();
+  for (var i = 0; i < pairs * 2; i++){
+    $("#game").append($("<div class='col-xs-3 card grey'></div>"))
+  };
+});
+
+/* Add functionality for buttons to choose image theme. */
+var img = $("#theme > .active").attr("img");
+
+$("#difficulty").on("click", ".btn-theme", function(){
+  img = $(this).attr("img");
+  $("#theme > .btn-theme").removeClass("active");
   $(this).addClass("active");
   $("#game").empty();
   for (var i = 0; i < pairs * 2; i++){
@@ -95,7 +108,7 @@ MatchGame.renderCards = function(cardValues, $game) {
     "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)"];
 
   for (var i = 0; i < cardValues.length; i++){
-
+// BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
     var value = cardValues[i];
     var color = colorArray[value - 1];
     var data = {value: value, color: color, flipStatus: false};
