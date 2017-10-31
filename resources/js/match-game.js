@@ -2,45 +2,21 @@ var $confetti = $(".indicate-win-animation");
 $confetti.hide();
 
 var MatchGame = {};
+var pairs
 
-/*
-  Sets up a new game after HTML document has loaded.
-  Renders a 4x4 board of cards.
-*/
+$("#difficulty").on("click", ".btn", function(){
+  pairs = $(this).attr("pairs")
+})
 
 /* Disable start-button, enable difficulty-buttons */
-var $start = $(".btn-start");
-var $small = $(".btn-small");
-var $medium = $(".btn-medium");
-var $large = $(".btn-large");
 
-$(".btn-start").off("click");
+//$(".btn-start").off("click");
 
-$(".btn").on("click", ".btn-small", function(){
-  var randomCards = MatchGame.generateCardValues(16);
-});
-
-$(".btn").on("click", ".btn-medium", function(){
-  var randomCards = MatchGame.generateCardValues(20);
-});
-
-$(".btn").on("click", ".btn-large", function(){
-  var randomCards = MatchGame.generateCardValues(24);
-});
-
-/*
-$(document).ready(function() {
-  var $game = $("#game");
-  var randomCards = MatchGame.generateCardValues();
-  console.log(randomCards);
-  MatchGame.renderCards(randomCards, $game);
-});
-*/
 
 /* On click of "Start Game" button, sets up a new game. */
 $(document).on("click", ".btn-start", function(){
     var $game = $("#game");
-    var randomCards = MatchGame.generateCardValues();
+    var randomCards = MatchGame.generateCardValues(pairs);
     console.log(randomCards);
     MatchGame.renderCards(randomCards, $game);
     $confetti.hide();
@@ -50,13 +26,12 @@ $(document).on("click", ".btn-start", function(){
   Generates and returns an array of matching card values.
 */
 
-MatchGame.generateCardValues = function (/*parameter indicating choice e.g. numberCards=16, 20 or 24*/) {
+MatchGame.generateCardValues = function (pairs) {
 
   /*
   Create a sequentially-ordered — in ascending order — array with two copies
   of every number from 1 through 8
   */
-  var pairs = 8;
   var orderedArray = [];
   for (var i = 1; i <= pairs ; i++){
     orderedArray.push(i, i);
