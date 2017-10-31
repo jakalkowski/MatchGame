@@ -42,11 +42,7 @@ p {
   color: rgb(128,128,128);
 }
 
-.button {
-  padding-left: 0;
-}
-
-.btn-difficulty {
+#difficulty > .btn {
  border: 2px solid rgb(32, 64, 86);
 
 }

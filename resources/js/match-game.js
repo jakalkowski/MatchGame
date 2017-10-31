@@ -2,17 +2,23 @@ var $confetti = $(".indicate-win-animation");
 $confetti.hide();
 
 var MatchGame = {};
+
 var pairs = $("#difficulty > .active").attr("pairs")
 
 $("#difficulty").on("click", ".btn", function(){
-  pairs = $(this).attr("pairs")
-  $("#difficulty > .btn").removeClass("active")
-  $(this).addClass("active")
+  pairs = $(this).attr("pairs");
+  $("#difficulty > .btn").removeClass("active");
+  $(this).addClass("active");
   $("#game").empty();
   for (var i = 0; i < pairs * 2; i++){
     $("#game").append($("<div class='col-xs-3 card grey'></div>"))
-  }
-})
+  };
+});
+
+/*
+  Sets up a new game after HTML document has loaded.
+  Renders a 4x4 board of cards.
+*/
 
 /* On click of "Start Game" button, sets up a new game. */
 $(document).on("click", ".btn-start", function(){
@@ -81,7 +87,8 @@ MatchGame.renderCards = function(cardValues, $game) {
   */
 
   var colorArray = ["hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
-    "hsl(220,85%,65%)", "hsl(265,85%,65%)", "hsl(310,85%,65%)", "hsl(360,85%,65%)"];
+    "hsl(220,85%,65%)", "hsl(265,85%,65%)", "hsl(310,85%,65%)", "hsl(360,85%,65%)",
+    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)"];
 
   for (var i = 0; i < cardValues.length; i++){
 
