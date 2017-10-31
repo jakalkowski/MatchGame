@@ -1,8 +1,11 @@
-var $confetti = $(".indicate-win-animation");
-$confetti.hide();
 
 var MatchGame = {};
 
+/* Hide win animation before game is loaded. */
+var $confetti = $(".indicate-win-animation");
+$confetti.hide();
+
+/* Add functionality for buttons to choose difficulty level. */
 var pairs = $("#difficulty > .active").attr("pairs")
 
 $("#difficulty").on("click", ".btn", function(){
@@ -17,7 +20,7 @@ $("#difficulty").on("click", ".btn", function(){
 
 /*
   Sets up a new game after HTML document has loaded.
-  Renders a 4x4 board of cards.
+  Renders a 4x4 board of cards for small board size.
 */
 
 /* On click of "Start Game" button, sets up a new game. */
