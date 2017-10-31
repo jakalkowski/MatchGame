@@ -42,7 +42,7 @@ p {
   color: rgb(128,128,128);
 }
 
-#difficulty > .btn {
+#difficulty > .btn, #theme> .btn {
  border: 2px solid rgb(32, 64, 86);
 
 }
