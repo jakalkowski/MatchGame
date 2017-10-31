@@ -100,7 +100,8 @@ MatchGame.renderCards = function(cardValues, $game) {
 
   var colorArray = ["hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
     "hsl(220,85%,65%)", "hsl(265,85%,65%)", "hsl(310,85%,65%)", "hsl(360,85%,65%)",
-    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)"];
+    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
+    "hsl(123,85%,65%)", "hsl(83,85%,65%)", "hsl(10,85%,65%)", "hsl(37,85%,65%)"];
 
   for (var i = 0; i < cardValues.length; i++){
 // BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
@@ -163,7 +164,7 @@ MatchGame.flipCard = function($card, $game) {
  $card.css("background-color", $card
   .data("color"))
   .data("flipStatus", true)
-  .append('<img width=100 height=100 src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
+  .append('<img class="card-image" src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
  $game.data("flippedCards").push($card);
 
  if ($game.data("flippedCards").length == 2) {
