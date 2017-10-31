@@ -8,6 +8,26 @@ var MatchGame = {};
   Renders a 4x4 board of cards.
 */
 
+/* Disable start-button, enable difficulty-buttons */
+var $start = $(".btn-start");
+var $small = $(".btn-small");
+var $medium = $(".btn-medium");
+var $large = $(".btn-large");
+
+$(".btn-start").off("click");
+
+$(".btn").on("click", ".btn-small", function(){
+  var randomCards = MatchGame.generateCardValues(16);
+});
+
+$(".btn").on("click", ".btn-medium", function(){
+  var randomCards = MatchGame.generateCardValues(20);
+});
+
+$(".btn").on("click", ".btn-large", function(){
+  var randomCards = MatchGame.generateCardValues(24);
+});
+
 /*
 $(document).ready(function() {
   var $game = $("#game");
@@ -30,7 +50,7 @@ $(document).on("click", ".btn-start", function(){
   Generates and returns an array of matching card values.
 */
 
-MatchGame.generateCardValues = function () {
+MatchGame.generateCardValues = function (/*parameter indicating choice e.g. numberCards=16, 20 or 24*/) {
 
   /*
   Create a sequentially-ordered — in ascending order — array with two copies
