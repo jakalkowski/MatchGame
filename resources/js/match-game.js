@@ -2,16 +2,17 @@ var $confetti = $(".indicate-win-animation");
 $confetti.hide();
 
 var MatchGame = {};
-var pairs
+var pairs = $("#difficulty > .active").attr("pairs")
 
 $("#difficulty").on("click", ".btn", function(){
   pairs = $(this).attr("pairs")
+  $("#difficulty > .btn").removeClass("active")
+  $(this).addClass("active")
+  $("#game").empty();
+  for (var i = 0; i < pairs * 2; i++){
+    $("#game").append($("<div class='col-xs-3 card grey'></div>"))
+  }
 })
-
-/* Disable start-button, enable difficulty-buttons */
-
-//$(".btn-start").off("click");
-
 
 /* On click of "Start Game" button, sets up a new game. */
 $(document).on("click", ".btn-start", function(){
