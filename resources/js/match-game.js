@@ -19,16 +19,12 @@ $("#difficulty").on("click", ".btn", function(){
 });
 
 /* Add functionality for buttons to choose image theme. */
-var img = $("#theme > .active").attr("img");
+var theme = $("#theme > .active").attr("theme");
 
-$("#difficulty").on("click", ".btn-theme", function(){
-  img = $(this).attr("img");
+$("#theme").on("click", ".btn-theme", function(){
+  theme = $(this).attr("theme");
   $("#theme > .btn-theme").removeClass("active");
   $(this).addClass("active");
-  $("#game").empty();
-  for (var i = 0; i < pairs * 2; i++){
-    $("#game").append($("<div class='col-xs-3 card grey'></div>"))
-  };
 });
 
 /*
@@ -164,7 +160,10 @@ MatchGame.flipCard = function($card, $game) {
    return;
  }
 
- $card.css("background-color", $card.data("color")).text($card.data("value")).data("flipStatus", true);
+ $card.css("background-color", $card
+  .data("color"))
+  .data("flipStatus", true)
+  .append('<img width=100 height=100 src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
  $game.data("flippedCards").push($card);
 
  if ($game.data("flippedCards").length == 2) {
