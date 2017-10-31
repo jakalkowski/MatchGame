@@ -1,3 +1,5 @@
+// BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
+
 
 var MatchGame = {};
 
