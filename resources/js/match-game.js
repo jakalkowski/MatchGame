@@ -1,14 +1,11 @@
-// BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
-
-
 var MatchGame = {};
 
 /* Hide win animation before game is loaded. */
 var $confetti = $(".indicate-win-animation");
 $confetti.hide();
 
-/* Add functionality for buttons to choose difficulty level. */
-var pairs = $("#difficulty > .active").attr("pairs")
+/* Add functionality for buttons to choose difficulty level using numbers on cards. */
+var pairs = $("#difficulty > .active").attr("pairs");
 
 $("#difficulty").on("click", ".btn", function(){
   pairs = $(this).attr("pairs");
@@ -18,6 +15,15 @@ $("#difficulty").on("click", ".btn", function(){
   for (var i = 0; i < pairs * 2; i++){
     $("#game").append($("<div class='col-xs-3 card grey'></div>"))
   };
+});
+
+/* Add functionality for buttons to choose image theme. */
+var theme = $("#theme > .active").attr("theme");
+
+$("#theme").on("click", ".btn-theme", function(){
+  theme = $(this).attr("theme");
+  $("#theme > .btn-theme").removeClass("active");
+  $(this).addClass("active");
 });
 
 /*
@@ -33,6 +39,44 @@ $(document).on("click", ".btn-start", function(){
     MatchGame.renderCards(randomCards, $game);
     $confetti.hide();
 });
+
+/* Add timer that starts running when start button is pressed
+   Stopp timer when game is not played. Start gamer by clicking start button.*/
+function timer(num) {
+    return (num < 10 ? "0" : "") + num;
+  };
+
+ var start = new Date;
+
+ setInterval(function() {
+  var total_seconds = (new Date - start) / 1000;
+
+  var hours = Math.floor(total_seconds / 3600);
+  total_seconds = total_seconds % 3600;
+
+  var minutes = Math.floor(total_seconds / 60);
+  total_seconds = total_seconds % 60;
+
+  var seconds = Math.floor(total_seconds);
+
+  hours = timer(hours);
+  minutes = timer(minutes);
+  seconds = timer(seconds);
+
+  var currentTimer = hours + ":" + minutes + ":" + seconds;
+
+  $(".timer").text(currentTimer);
+}, 1000);
+
+//var timer = setInterval(myFunction, 3000);
+//clearInterval(timer);
+
+/*$("<div class='col-xs-3 card'></div>").click(function(){
+  if($("#game").data("cardsRemaining") == 0) {
+    $(".timer").clearInterval();
+  };
+});*/
+
 
 /*
   Generates and returns an array of matching card values.
@@ -93,15 +137,16 @@ MatchGame.renderCards = function(cardValues, $game) {
 
   var colorArray = ["hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
     "hsl(220,85%,65%)", "hsl(265,85%,65%)", "hsl(310,85%,65%)", "hsl(360,85%,65%)",
-    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)"];
+    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
+    "hsl(123,85%,65%)", "hsl(83,85%,65%)", "hsl(10,85%,65%)", "hsl(37,85%,65%)"];
 
   for (var i = 0; i < cardValues.length; i++){
-
+// BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
     var value = cardValues[i];
     var color = colorArray[value - 1];
     var data = {value: value, color: color, flipStatus: false};
 
-    var $card = $("<div class='col-xs-3 card'></div>")
+    var $card = $("<div class='col-xs-3 card'></div>");
     $card.data(data);
 
     /* var $card = $("<div class='col-xs-3 card'></div>").data("value", {
@@ -153,7 +198,10 @@ MatchGame.flipCard = function($card, $game) {
    return;
  }
 
- $card.css("background-color", $card.data("color")).text($card.data("value")).data("flipStatus", true);
+ $card.css("background-color", $card
+  .data("color"))
+  .data("flipStatus", true)
+  .append('<img class="card-image" src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
  $game.data("flippedCards").push($card);
 
  if ($game.data("flippedCards").length == 2) {
