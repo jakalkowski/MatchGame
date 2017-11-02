@@ -1,4 +1,3 @@
-// BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
 var MatchGame = {};
 
 /* Hide win animation before game is loaded. */
