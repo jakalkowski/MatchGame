@@ -1,4 +1,5 @@
 var MatchGame = {};
+var timerId; // global timer id
 
 /* Hide win animation before game is loaded. */
 var $confetti = $(".indicate-win-animation");
@@ -26,29 +27,16 @@ $("#theme").on("click", ".btn-theme", function(){
   $(this).addClass("active");
 });
 
-/*
-  Sets up a new game after HTML document has loaded.
-  Renders a 4x4 board of cards for small board size.
-*/
-
-/* On click of "Start Game" button, sets up a new game. */
-$(document).on("click", ".btn-start", function(){
-    var $game = $("#game");
-    var randomCards = MatchGame.generateCardValues(pairs);
-    console.log(randomCards);
-    MatchGame.renderCards(randomCards, $game);
-    $confetti.hide();
-});
-
 /* Add timer that starts running when start button is pressed
    Stopp timer when game is not played. Start gamer by clicking start button.*/
+
+// helper function for time display
 function timer(num) {
     return (num < 10 ? "0" : "") + num;
-  };
+};
 
- var start = new Date;
-
- setInterval(function() {
+// updates UI with increasing timer value
+function calculateTime(start) {
   var total_seconds = (new Date - start) / 1000;
 
   var hours = Math.floor(total_seconds / 3600);
@@ -66,17 +54,34 @@ function timer(num) {
   var currentTimer = hours + ":" + minutes + ":" + seconds;
 
   $(".timer").text(currentTimer);
-}, 1000);
+}
 
-//var timer = setInterval(myFunction, 3000);
-//clearInterval(timer);
+// starts or stops the timer
+function runTimer(running) {
+ if (running) {
+   var start = new Date;
+   timerId = setInterval(function() { calculateTime(start) }, 1000);
+ } else {
+   clearInterval(timerId);
+ }
+}
 
-/*$("<div class='col-xs-3 card'></div>").click(function(){
-  if($("#game").data("cardsRemaining") == 0) {
-    $(".timer").clearInterval();
-  };
-});*/
 
+/*
+  Sets up a new game after HTML document has loaded.
+  Renders a 4x4 board of cards for small board size.
+*/
+
+/* On click of "Start Game" button, sets up a new game. */
+$(document).on("click", ".btn-start", function(){
+    var $game = $("#game");
+    var randomCards = MatchGame.generateCardValues(pairs);
+    console.log(randomCards);
+    MatchGame.renderCards(randomCards, $game);
+    $confetti.hide();
+    // start the timer
+    runTimer(true);
+});
 
 /*
   Generates and returns an array of matching card values.
@@ -222,6 +227,8 @@ MatchGame.flipCard = function($card, $game) {
        /* Check win condition. */
        if ($game.data("cardsRemaining") == 0) {
          $confetti.show();
+         // stop the timer when game is won
+         runTimer(false);
        };
 
     } else {
