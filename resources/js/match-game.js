@@ -41,6 +41,44 @@ $(document).on("click", ".btn-start", function(){
     $confetti.hide();
 });
 
+/* Add timer that starts running when start button is pressed
+   Stopp timer when game is not played. Start gamer by clicking start button.*/
+function timer(num) {
+    return (num < 10 ? "0" : "") + num;
+  };
+
+ var start = new Date;
+
+ setInterval(function() {
+  var total_seconds = (new Date - start) / 1000;
+
+  var hours = Math.floor(total_seconds / 3600);
+  total_seconds = total_seconds % 3600;
+
+  var minutes = Math.floor(total_seconds / 60);
+  total_seconds = total_seconds % 60;
+
+  var seconds = Math.floor(total_seconds);
+
+  hours = timer(hours);
+  minutes = timer(minutes);
+  seconds = timer(seconds);
+
+  var currentTimer = hours + ":" + minutes + ":" + seconds;
+
+  $(".timer").text(currentTimer);
+}, 1000);
+
+//var timer = setInterval(myFunction, 3000);
+//clearInterval(timer);
+
+/*$("<div class='col-xs-3 card'></div>").click(function(){
+  if($("#game").data("cardsRemaining") == 0) {
+    $(".timer").clearInterval();
+  };
+});*/
+
+
 /*
   Generates and returns an array of matching card values.
 */
@@ -108,7 +146,7 @@ MatchGame.renderCards = function(cardValues, $game) {
     var color = colorArray[value - 1];
     var data = {value: value, color: color, flipStatus: false};
 
-    var $card = $("<div class='col-xs-3 card'></div>")
+    var $card = $("<div class='col-xs-3 card'></div>");
     $card.data(data);
 
     /* var $card = $("<div class='col-xs-3 card'></div>").data("value", {
@@ -163,7 +201,7 @@ MatchGame.flipCard = function($card, $game) {
  $card.css("background-color", $card
   .data("color"))
   .data("flipStatus", true)
-  .append('<img width=100 height=100 src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
+  .append('<img class="cardImage" src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
  $game.data("flippedCards").push($card);
 
  if ($game.data("flippedCards").length == 2) {

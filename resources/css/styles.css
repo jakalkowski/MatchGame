@@ -167,3 +167,7 @@ p {
 .grey {
   background-color: rgb(153,153,153);
 }
+
+.cardImage {
+  width: 100%;
+}
