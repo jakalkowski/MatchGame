@@ -1,14 +1,14 @@
-// BILD EINBINDEN: 'src="./resources/' + theme + '/' + cardValue + '.png'"
-
-
 var MatchGame = {};
+var timerId; // global timer id
 
 /* Hide win animation before game is loaded. */
 var $confetti = $(".indicate-win-animation");
+$(".win-message").addClass("animated bounceInDown");
 $confetti.hide();
+$(".win-message").hide();
 
-/* Add functionality for buttons to choose difficulty level. */
-var pairs = $("#difficulty > .active").attr("pairs")
+/* Add functionality for buttons to choose difficulty level using numbers on cards. */
+var pairs = $("#difficulty > .active").attr("pairs");
 
 $("#difficulty").on("click", ".btn", function(){
   pairs = $(this).attr("pairs");
@@ -20,6 +20,54 @@ $("#difficulty").on("click", ".btn", function(){
   };
 });
 
+/* Add functionality for buttons to choose image theme. */
+var theme = $("#theme > .active").attr("theme");
+
+$("#theme").on("click", ".btn-theme", function(){
+  theme = $(this).attr("theme");
+  $("#theme > .btn-theme").removeClass("active");
+  $(this).addClass("active");
+});
+
+/* Add timer that starts running when start button is pressed
+   Stopp timer when game is not played. Start gamer by clicking start button.*/
+
+// helper function for time display
+function timer(num) {
+  return (num < 10 ? "0" : "") + num;
+};
+
+// updates UI with increasing timer value
+function calculateTime(start) {
+  var total_seconds = (new Date - start) / 1000;
+
+  var hours = Math.floor(total_seconds / 3600);
+  total_seconds = total_seconds % 3600;
+
+  var minutes = Math.floor(total_seconds / 60);
+  total_seconds = total_seconds % 60;
+
+  var seconds = Math.floor(total_seconds);
+
+  hours = timer(hours);
+  minutes = timer(minutes);
+  seconds = timer(seconds);
+
+  var currentTimer = hours + "h :" + minutes + "m :" + seconds + "s";
+
+  $(".timer").text("You're time is " + currentTimer);
+}
+
+// starts or stops the timer
+function runTimer(running) {
+  if (running) {
+    var start = new Date;
+    timerId = setInterval(function() { calculateTime(start) }, 1000);
+  } else {
+    clearInterval(timerId);
+  }
+}
+
 /*
   Sets up a new game after HTML document has loaded.
   Renders a 4x4 board of cards for small board size.
@@ -27,11 +75,13 @@ $("#difficulty").on("click", ".btn", function(){
 
 /* On click of "Start Game" button, sets up a new game. */
 $(document).on("click", ".btn-start", function(){
-    var $game = $("#game");
-    var randomCards = MatchGame.generateCardValues(pairs);
-    console.log(randomCards);
-    MatchGame.renderCards(randomCards, $game);
-    $confetti.hide();
+  var $game = $("#game");
+  var randomCards = MatchGame.generateCardValues(pairs);
+  console.log(randomCards);
+  MatchGame.renderCards(randomCards, $game);
+  $confetti.hide();
+  // start the timer
+  runTimer(true);
 });
 
 /*
@@ -93,20 +143,16 @@ MatchGame.renderCards = function(cardValues, $game) {
 
   var colorArray = ["hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
     "hsl(220,85%,65%)", "hsl(265,85%,65%)", "hsl(310,85%,65%)", "hsl(360,85%,65%)",
-    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)"];
+    "hsl(25,85%,65%)", "hsl(55,85%,65%)", "hsl(90,85%,65%)", "hsl(160,85%,65%)",
+    "hsl(123,85%,65%)", "hsl(83,85%,65%)", "hsl(10,85%,65%)", "hsl(37,85%,65%)"];
 
   for (var i = 0; i < cardValues.length; i++){
-
     var value = cardValues[i];
     var color = colorArray[value - 1];
     var data = {value: value, color: color, flipStatus: false};
 
-    var $card = $("<div class='col-xs-3 card'></div>")
+    var $card = $("<div class='col-xs-3 card'></div>");
     $card.data(data);
-
-    /* var $card = $("<div class='col-xs-3 card'></div>").data("value", {
-      value: cardValues[i], color: colorArray[cardValues[i] - 1], flipStatus: "false"
-    })*/
 
     /*
     Add the card objects to the $game object.
@@ -115,16 +161,17 @@ MatchGame.renderCards = function(cardValues, $game) {
 
     /* Initialize card counter. */
     $game.data("cardsRemaining", cardValues.length);
+    /* Initialize game score. */
+    $game.data("score", 0);
   };
 
   /*
   Add an event listener at the end of .renderCards(). This listener should call
   .flipCard() whenever a card is clicked.
   */
-   $(".card").click(function(){
-     MatchGame.flipCard($(this), $game);
-   });
-
+  $(".card").click(function(){
+    MatchGame.flipCard($(this), $game);
+  });
 };
 
 /*
@@ -149,55 +196,68 @@ MatchGame.renderCards = function(cardValues, $game) {
 
 MatchGame.flipCard = function($card, $game) {
 
- if ($card.data("flipStatus")){
-   return;
- }
+  if ($card.data("flipStatus")){
+    return;
+  }
 
- $card.css("background-color", $card.data("color")).text($card.data("value")).data("flipStatus", true);
- $game.data("flippedCards").push($card);
+  $card.css("background-color", $card
+    .data("color"))
+    .data("flipStatus", true)
+    .append('<img class="card-image" src="./resources/images/theme/' + theme + '/' + $card.data("value") + '.png" />');
+  $game.data("flippedCards").push($card);
 
- if ($game.data("flippedCards").length == 2) {
-   if ($game.data("flippedCards")[0].data("value") === $game.data("flippedCards")[1].data("value")) {
-     var matching = {
-       backgroundColor: "rgb(153,153,153)",
-       color: "rgb(204,204,204)"
-       };
-       $game.data("flippedCards")[0].css(matching);
-       $game.data("flippedCards")[1].css(matching);
-       $game.data("flippedCards", []);
+  if ($game.data("flippedCards").length == 2) {
+    if ($game.data("flippedCards")[0].data("value") === $game.data("flippedCards")[1].data("value")) {
+      var matching = {
+        backgroundColor: "rgb(153,153,153)",
+        color: "rgb(204,204,204)"
+      };
+      $game.data("flippedCards")[0].css(matching);
+      $game.data("flippedCards")[1].css(matching);
+      $game.data("flippedCards", []);
 
-       /* If match found update card counter. */
-       var newRemaining = $game.data("cardsRemaining") - 2;
-       $game.data("cardsRemaining", newRemaining);
-       //console.log("after substract: " + $game.data("cardsRemaining"))
+      /* If match found update card counter. */
+      var newRemaining = $game.data("cardsRemaining") - 2;
+      $game.data("cardsRemaining", newRemaining);
+      //console.log("after substract: " + $game.data("cardsRemaining"))
 
-       /* Check win condition. */
-       if ($game.data("cardsRemaining") == 0) {
-         $confetti.show();
-       };
+      /* Add score to game. Score 1 point after turning 1 matching pair.*/
+      var newScore = $game.data("score") + 1;
+      $game.data("score", newScore);
+      var scoreText = "You matched " + $game.data("score")
+      if (newScore == 1) {
+        $(".score").text(scoreText + " pair.");
+      } else {
+        $(".score").text(scoreText + " pairs.");
+      }
+      console.log("score after turning matching pair: " + $game.data("score"))
 
+      /* Check win condition. */
+      if ($game.data("cardsRemaining") == 0) {
+        $confetti.show();
+        $(".win-message").show();
+        // stop the timer when game is won
+        runTimer(false);
+      };
     } else {
-
       /* No match found. Deactivate click events. */
-        $(".card").off("click");
-        /* Start timer for 350ms. */
-        setTimeout(function(){
-          /* After timer expired, flip cards back and enable click events again. */
-          var resetCss = {
-            backgroundColor: "rgb(32,64,86)",
-            color: "rgb(255,255,255)"
-          };
+      $(".card").off("click");
+      /* Start timer for 350ms. */
+      setTimeout(function(){
+        /* After timer expired, flip cards back and enable click events again. */
+        var resetCss = {
+          backgroundColor: "rgb(32,64,86)",
+          color: "rgb(255,255,255)"
+        };
 
-          $game.data("flippedCards")[0].css(resetCss).text("").data("flipStatus", false);
-          $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
-          $game.data("flippedCards", []);
+        $game.data("flippedCards")[0].css(resetCss).text("").data("flipStatus", false);
+        $game.data("flippedCards")[1].css(resetCss).text("").data("flipStatus", false);
+        $game.data("flippedCards", []);
 
-          $(".card").click(function(){
-            MatchGame.flipCard($(this), $game);
-          });
-
-        }, 350);
-
+        $(".card").click(function(){
+          MatchGame.flipCard($(this), $game);
+        });
+      }, 350);
     }
-   }
+  }
 };
