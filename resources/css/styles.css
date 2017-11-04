@@ -63,6 +63,14 @@ p {
   z-index: 5;
 }
 
+.card-image {
+  width: 100%;
+}
+
+.win-message {
+  text-align: center;
+}
+
 /* Indicate-win-animation */
 .confetti {
   width: 15px;
@@ -166,9 +174,4 @@ p {
 
 .grey {
   background-color: rgb(153,153,153);
-}
-
-
-.card-image {
-  width: 100%;
 }

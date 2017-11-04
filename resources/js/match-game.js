@@ -3,7 +3,9 @@ var timerId; // global timer id
 
 /* Hide win animation before game is loaded. */
 var $confetti = $(".indicate-win-animation");
+$(".win-message").addClass("animated bounceInDown");
 $confetti.hide();
+$(".win-message").hide();
 
 /* Add functionality for buttons to choose difficulty level using numbers on cards. */
 var pairs = $("#difficulty > .active").attr("pairs");
@@ -238,6 +240,7 @@ MatchGame.flipCard = function($card, $game) {
        /* Check win condition. */
        if ($game.data("cardsRemaining") == 0) {
          $confetti.show();
+         $(".win-message").show();
          // stop the timer when game is won
          runTimer(false);
        };
