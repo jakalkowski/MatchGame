@@ -51,9 +51,9 @@ function calculateTime(start) {
   minutes = timer(minutes);
   seconds = timer(seconds);
 
-  var currentTimer = hours + ":" + minutes + ":" + seconds;
+  var currentTimer = hours + "h :" + minutes + "m :" + seconds + "s";
 
-  $(".timer").text(currentTimer);
+  $(".timer").text("You're time is " + currentTimer);
 }
 
 // starts or stops the timer
@@ -165,7 +165,7 @@ MatchGame.renderCards = function(cardValues, $game) {
     /* Initialize card counter. */
     $game.data("cardsRemaining", cardValues.length);
     /* Initialize game score. */
-    $game.data("score", 1);
+    $game.data("score", 0);
 
   };
 
@@ -230,7 +230,7 @@ MatchGame.flipCard = function($card, $game) {
        if ($game.data("cardsRemaining") - 2){
          var newScore = $game.data("score") + 1;
          $game.data("score", newScore);
-         $(".score").text($game.data("score"));
+         $(".score").text("You matched " + $game.data("score") + " pair(s).");
        };
 
         console.log("score after turning matching pair: " + $game.data("score"))
@@ -240,8 +240,6 @@ MatchGame.flipCard = function($card, $game) {
          $confetti.show();
          // stop the timer when game is won
          runTimer(false);
-         // show game score
-
        };
 
     } else {
