@@ -229,13 +229,15 @@ MatchGame.flipCard = function($card, $game) {
        //console.log("after substract: " + $game.data("cardsRemaining"))
 
        /* Add score to game. Score 1 point after turning 1 matching pair.*/
-       if ($game.data("cardsRemaining") - 2){
-         var newScore = $game.data("score") + 1;
-         $game.data("score", newScore);
-         $(".score").text("You matched " + $game.data("score") + " pair(s).");
-       };
-
-        console.log("score after turning matching pair: " + $game.data("score"))
+       var newScore = $game.data("score") + 1;
+       $game.data("score", newScore);
+       var scoreText = "You matched " + $game.data("score")
+       if (newScore == 1) {
+         $(".score").text(scoreText + " pair.");
+       } else {
+         $(".score").text(scoreText + " pairs.");
+       }
+       console.log("score after turning matching pair: " + $game.data("score"))
 
        /* Check win condition. */
        if ($game.data("cardsRemaining") == 0) {
