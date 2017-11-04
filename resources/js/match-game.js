@@ -1,3 +1,9 @@
+/*
+MatchGame
+created by: Janine Kalkowski
+version: 2.0.0
+*/
+
 var MatchGame = {};
 var timerId; // global timer id
 
