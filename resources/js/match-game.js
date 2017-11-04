@@ -66,7 +66,6 @@ function runTimer(running) {
  }
 }
 
-
 /*
   Sets up a new game after HTML document has loaded.
   Renders a 4x4 board of cards for small board size.
@@ -165,6 +164,9 @@ MatchGame.renderCards = function(cardValues, $game) {
 
     /* Initialize card counter. */
     $game.data("cardsRemaining", cardValues.length);
+    /* Initialize game score. */
+    $game.data("score", 1);
+
   };
 
   /*
@@ -224,11 +226,20 @@ MatchGame.flipCard = function($card, $game) {
        $game.data("cardsRemaining", newRemaining);
        //console.log("after substract: " + $game.data("cardsRemaining"))
 
+       /* Add score to game. Score 1 point after turning 1 matching pair.*/
+       if ($game.data("cardsRemaining") - 2) {
+         var newScore = $game.data("score") + 1;
+         var scoreboard = $game.data("score", newScore);
+       };
+       console.log("score after turning matching pair: " + $game.data("score"))
+
        /* Check win condition. */
        if ($game.data("cardsRemaining") == 0) {
          $confetti.show();
          // stop the timer when game is won
          runTimer(false);
+         // show game score
+         $(".score").text("scoreboard");
        };
 
     } else {
