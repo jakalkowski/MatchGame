@@ -229,8 +229,8 @@ MatchGame.flipCard = function($card, $game) {
        /* Add score to game. Score 1 point after turning 1 matching pair.*/
        if ($game.data("cardsRemaining") - 2){
          var newScore = $game.data("score") + 1;
-         var scoreboard = $game.data("score", newScore);
-         $(".score").text(scoreboard);
+         $game.data("score", newScore);
+         $(".score").text($game.data("score"));
        };
 
         console.log("score after turning matching pair: " + $game.data("score"))
