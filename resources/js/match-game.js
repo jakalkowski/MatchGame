@@ -227,11 +227,13 @@ MatchGame.flipCard = function($card, $game) {
        //console.log("after substract: " + $game.data("cardsRemaining"))
 
        /* Add score to game. Score 1 point after turning 1 matching pair.*/
-       if ($game.data("cardsRemaining") - 2) {
+       if ($game.data("cardsRemaining") - 2){
          var newScore = $game.data("score") + 1;
          var scoreboard = $game.data("score", newScore);
+         $(".score").text(scoreboard);
        };
-       console.log("score after turning matching pair: " + $game.data("score"))
+
+        console.log("score after turning matching pair: " + $game.data("score"))
 
        /* Check win condition. */
        if ($game.data("cardsRemaining") == 0) {
@@ -239,7 +241,7 @@ MatchGame.flipCard = function($card, $game) {
          // stop the timer when game is won
          runTimer(false);
          // show game score
-         $(".score").text("scoreboard");
+
        };
 
     } else {
